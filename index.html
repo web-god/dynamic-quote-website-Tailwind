@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Quote Website</title>
+   
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div class="w-screen h-screen flex justify-center">
+      <img src="images/bg3.jpg" alt="" class="w-full h-full" />
+      <div class="w-4/5 h-4/5 bg-black absolute top-20 opacity-60 rounded-3xl">
+        <div class="flex justify-between">
+          <div class="text-white text-9xl px-32 py-10 animate-bounce ">''</div>
+          <img src="images/twitter.jpg" alt="" id="tweetMe" class="w-32 h-32 hover:cursor-pointer animate-wiggle" />
+        </div>
+        <div id="quotes" class="text-white text-6xl px-24  text-justify transform hover:skew-x-12 hover:skew-y-0 transition duration-500 ease-in-out bg-gray-800  font-bold rounded-lg">
+          I have lowest K/D but still I think I'm pro
+        </div>
+        <div class="flex py-16 justify-end px-8 animate-pulse ">
+          <div class="text-white text-4xl pl-32 pr-4 pt-28">By</div>
+
+          <div id="author" class="text-white text-4xl pt-28">
+            Piyush Chaubey
+          </div>
+        </div>
+        <div
+          id="newQ"
+          class="bg-gray-900 w-full h-24 font-serif absolute bottom-0 text-white text-6xl text-center py-2 cursor-pointer hover:bg-gray-800 hover:"
+        >
+          New Quote
+        </div>
+      </div>
+    </div>
+    <script>
+      const quotes = document.getElementById("quotes");
+      const author = document.getElementById("author");
+      const newQ = document.getElementById("newQ");
+      const tweetMe = document.getElementById("tweetMe");
+      newQ.addEventListener("click", () => {
+        getQuotes();
+      });
+
+      const getNewQuotes = () => {
+        let randNum = Math.floor(Math.random() * 10);
+        return randNum;
+      };
+      const getQuotes = async () => {
+        const api = "https://type.fit/api/quotes";
+
+        try {
+          let data = await fetch(api);
+
+          const realData = await data.json();
+
+          random = getNewQuotes();
+          quotesData = realData[random];
+          quotes.innerHTML = ` ${quotesData.text}`;
+          quotesData.author = null
+            ? (author.innerHTML = "unknown")
+            : (author.innerHTML = ` ${quotesData.author}`);
+
+       
+        } catch (error) {}
+      };
+
+      tweetMe.addEventListener("click", () => {
+            let tweetPost = `https://twitter.com/intent/tweet?text=${quotesData.text} ${quotesData.author}`;
+            window.open(tweetPost);
+          });
+
+      //   getQuotes();
+    </script>
+  </body>
+</html>
